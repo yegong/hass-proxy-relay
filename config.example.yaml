@@ -1,0 +1,12 @@
+listen: ":443"
+
+upstream: "http://proxy.example:7890"
+
+allowed_hosts:
+  - vector.openstreetmap.org
+  - tile.openstreetmap.org
+
+timeouts:
+  client_hello: 10s
+  connect: 5s
+  proxy_handshake: 10s

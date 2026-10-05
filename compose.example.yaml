@@ -1,0 +1,28 @@
+services:
+  hass-proxy-relay:
+    image: hass-proxy-relay:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data:ro
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: "0"
+    networks:
+      relay:
+        # Example only: choose an unused address from the subnet below.
+        ipv4_address: 172.30.10.2
+
+networks:
+  relay:
+    # The stable network and container address give Home Assistant a stable
+    # extra_hosts target. Bridge-networked HA may also attach to this network.
+    name: hass-proxy-relay-network
+    driver: bridge
+    ipam:
+      config:
+        # Example only: replace this if it overlaps an existing network.
+        - subnet: 172.30.10.0/24
